@@ -20,6 +20,20 @@ def GetData():
     val.close()
     return jInter
 
+@App.route('/SetFalse',methods = ['GET'])
+def PostData():
+    FileOpener = open('data.json')
+    json_dict = request.get_json()
+    data = json.load(FileOpener)
+    setTo = False
+    FileOpener.close()
+    FileEditer = open('data.json','w')
+    data['Results'] = setTo
+    json.dump(data, FileEditer)
+    FileEditer.close()
+    return "Success"
+    
+
 @App.route('/SetRes',methods = ['POST'])
 def PostData():
     FileOpener = open('data.json')
