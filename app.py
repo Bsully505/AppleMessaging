@@ -21,7 +21,7 @@ def GetData():
     return jInter
 
 @App.route('/SetFalse',methods = ['GET'])
-def PostData():
+def PostData3():
     FileOpener = open('data.json')
     json_dict = request.get_json()
     data = json.load(FileOpener)
