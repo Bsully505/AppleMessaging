@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title> Sending IMessages With Bryan</title>
+        
+    </head>
+    
+    <body>
+        
+        
+        <p id="res">This is currently set to <span id="toggled"></span> </p>
+        <button id = "Clicky" onclick = "myFunction()" type="button">Send</button>
+        <button id = "Update" onclick = "Update()" type="button">Update</button>
+        <fieldset>
+            <label> Send To: </label>
+            <input id = "SendingTo"></input>
+        </fieldset>
+
+        <fieldset>
+            <label >Text:&emsp; </label>
+            <input id = "TextIn"></input>
+           
+        </fieldset>
+    
+        
+      
+        <script>
+
+            fetch('data')
+            .then(response => response.json())
+            .then(data => document.getElementById("toggled").innerHTML=data['Results']);
+
+
+           
+            function myFunction(){
+                
+
+                //get what the Current Toggle Boolean 
+                let temp = document.getElementById("toggled").innerHTML;
+                let decision = eval(temp);
+                //Tried to find a way to use a XOR operator I should change the !true to false
+                if(decision ? !true:true){
+                    let res = fetch('SetRes',{method:'Post',
+                    headers:{'Content-Type': 'application/json'},body:JSON.stringify({res: true})});
+                    document.getElementById("toggled").innerHTML = document.getElementById("SendingTo").innerHTML;
+                }
+                else{
+                    fetch('SetRes',
+                    {method:'Post',
+                    headers:{
+                        'Content-Type': 'application/json'
+                    },
+                    body:JSON.stringify({res: false})})
+                    document.getElementById("toggled").innerHTML = document.getElementById("SendingTo");;
+                }
+            
+                
+
+            }
+            function Update(){
+                updateSender();
+                updateText();
+            }
+
+            function updateSender(){
+                let sender = document.getElementById("SendingTo").value;
+                fetch('SetSender',
+                    {method:'Post',
+                    headers:{
+                        'Content-Type': 'application/json'
+                    },
+                    body:JSON.stringify({Sender: sender})})
+
+            }
+            function updateText(){
+                
+                fetch('SetText',
+                    {method:'Post',
+                    headers:{
+                        'Content-Type': 'application/json'
+                    },
+                    body:JSON.stringify({Text: document.getElementById("TextIn").value})
+                })
+                    
+
+            }
+
+          
+        </script> 
+    </body>
+</html>
+
+
